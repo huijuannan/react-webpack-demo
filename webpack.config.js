@@ -129,7 +129,12 @@ module.exports = function (env) {
             new webpack.DefinePlugin({
                 'SERVICE_URL': isProduction ?
                     JSON.stringify("http://pro.example.com") :
-                    JSON.stringify("http://dev.example.com")
+                    JSON.stringify("http://dev.example.com"),
+                "process.env": {
+                    NODE_ENV: isProduction ?
+                        JSON.stringify("production") :
+                        JSON.stringify("development")
+                }
             })
         ],
         /**
