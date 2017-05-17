@@ -155,6 +155,8 @@ module.exports = function (env) {
         },
         // 为压缩以后的代码提供 source map 方便调试
         // https://webpack.js.org/configuration/devtool/
-        devtool: !isProduction && 'cheap-module-source-map',
+        devtool: isProduction ?
+            'hidden-source-map' :
+            'cheap-module-eval-source-map',
     };
 }
