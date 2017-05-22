@@ -3,7 +3,7 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-
+var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 
 /**
  * webpack.config.js 可以 export 一个 object，或者是一个 env 为参数的 function
@@ -106,6 +106,9 @@ module.exports = function (env) {
          * https://webpack.js.org/concepts/plugins/
          */
         plugins: [
+            new InterpolateHtmlPlugin({
+                PUBLIC_URL: '' // 用于替换 index.html 里面的 %PUBLIC_URL%
+            }),
             new HtmlWebpackPlugin({
                 inject: true,
                 template: '../public/index.html',
@@ -140,12 +143,14 @@ module.exports = function (env) {
         /**
          * webpack 自带的开发 server，配合 webpack-dev-server 命令使用
          * https://webpack.js.org/guides/development/#webpack-dev-server
+         * https://webpack.js.org/configuration/dev-server/
          */
         devServer:{
             hot: true,
-            contentBase: path.join(__dirname, "build"),
+            contentBase: path.join(__dirname, "public"),
             compress: true,
             port: 9000,
+            publicPath: '/',
             // 设置代理，比如，请求 /api/abc 会代理制 http://localhost:7000/abc
             // https://webpack.js.org/configuration/dev-server/#devserver-proxy
             // https://github.com/chimurai/http-proxy-middleware#http-proxy-middleware-options
