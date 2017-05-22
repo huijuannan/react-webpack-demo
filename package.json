@@ -30,7 +30,7 @@
     "webpack-dev-server": "^2.4.5"
   },
   "scripts": {
-    "start": "export NODE_ENV=development && ./node_modules/.bin/webpack-dev-server --open",
+    "start": "node scripts/start.js",
     "build": "export NODE_ENV=production && rm -rf ./build && webpack --env.production --optimize-minimize"
   }
 }
