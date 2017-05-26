@@ -4,6 +4,7 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
+var autoprefixer = require('autoprefixer');
 
 /**
  * webpack.config.js 可以 export 一个 object，或者是一个 env 为参数的 function
@@ -77,7 +78,28 @@ module.exports = function (env) {
                 {
                     test: /\.css$/,
                     loader: isProduction ?
-                        ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }) :
+                        ExtractTextPlugin.extract({ fallback: 'style-loader', use: [
+                            {
+                                loader: require.resolve('css-loader')
+                            },
+                            {
+                                loader: require.resolve('postcss-loader'),
+                                options: {
+                                    plugins: () => [
+                                        require('postcss-flexbugs-fixes'),
+                                        autoprefixer({
+                                            browsers: [
+                                                '>1%',
+                                                'last 4 versions',
+                                                'Firefox ESR',
+                                                'not ie < 9',
+                                            ],
+                                            flexbox: 'no-2009',
+                                        }),
+                                    ],
+                                },
+                            }
+                        ] }) :
                         [ 'style-loader', 'css-loader', ]
                 },
                 /**
